@@ -14,14 +14,14 @@ Visit us at http://picocms.org/ and see http://picocms.org/about/ for more info.
 Screenshot
 ----------
 
-![Pico Screenshot](https://picocms.github.io/screenshots/pico-20.png)
+![Pico Screenshot](https://picocms.github.io/screenshots/pico-21.png)
 
 Install
 -------
 
 Installing Pico is dead simple - and done in seconds! If you have access to a shell on your server (i.e. SSH access), we recommend using [Composer][]. If not, use a pre-bundled release. If you don't know what "SSH access" is, head over to the pre-bundled release. 😇
 
-Pico requires PHP 5.3.6+
+Pico requires PHP 5.3.6+ and the PHP extensions `dom` and `mbstring` to be enabled.
 
 ### I want to use Composer
 
@@ -52,9 +52,32 @@ Do you know the feeling: You want to install a new website, so you upload all fi
 
 Okay, here's the catch: There's no catch. That's it! Open your favorite web browser and navigate to your brand new, stupidly simple, blazing fast, flat file CMS! Pico's sample contents will explain how to create your own contents. 😊
 
+### I want to manage my website using a Git repository
+
+Git is a very powerful distributed version-control system - and it can be used to establish a nice workflow around your Pico website. Using a Git repository for your website aids content creation and deployment, including collaborative editing and version control. If you want to manage your website in a Git repository, you use a Composer-based installation.
+
+1. Fork [Pico's Composer starter project][PicoComposerGit] using [GitHub's fork button][HelpFork]. If you don't want to use GitHub you aren't required to, you can choose whatever Git server you want. Forking manually just requires some extra steps: First clone the Git repository locally, add your Git server as a remote and push the repository to this new remote.
+
+2. Clone your fork locally and add your contents and assets. You can edit Pico's `composer.json` to include 3rd-party plugins and themes, or simply add your own plugins and themes to Pico's `plugins` resp. `themes` directories. Don't forget to commit your changes and push them to your Git server.
+
+3. Open a shell on your webserver and navigate to the `httpdocs` directory (e.g. `/var/www/html`). Download Composer, clone your Git repository to the desired directory (e.g. `/var/www/html/pico`) and install Pico's dependencies using Composer's `install` option:
+
+    ```shell
+    $ curl -sSL https://getcomposer.org/installer | php
+    $ git clone https://github.com/<YOUR_USERNAME>/<YOUR_REPOSITORY> pico
+    $ php composer.phar --working-dir=pico install
+    ```
+
+4. If you update your website's contents, simply commit your changes and push them to your Git server. Open a shell on your webserver and navigate to Pico's install directory within the `httpdocs` directory (e.g. `/var/www/html/pico`) of your server. Pull all changes from your Git server and update Pico's dependencies using Composer's `update` option:
+
+    ```shell
+    $ git pull
+    $ php composer.phar update
+    ```
+
 ### I'm a developer
 
-So, you're one of these amazing folks making all of this possible? We love you guys! As a developer we recommend you to clone [Pico's Git repository][PicoGit] as well as the Git repositories of [Pico's default theme][PicoThemeGit] and the [`PicoDeprecated` plugin][PicoDeprecatedGit]. You can set up your workspace using [Pico's Composer starter project][PicoComposerGit] and include all of Pico's components using local packages.
+So, you're one of these amazing people making all of this possible? We love you folks! As a developer we recommend you to clone [Pico's Git repository][PicoGit] as well as the Git repositories of [Pico's default theme][PicoThemeGit] and the [`PicoDeprecated` plugin][PicoDeprecatedGit]. You can set up your workspace using [Pico's Composer starter project][PicoComposerGit] and include all of Pico's components using local packages.
 
 Using Pico's Git repositories is different from using one of the installation methods elucidated above. It gives you the current development version of Pico, what is likely *unstable* and *not ready for production use*!
 
@@ -136,7 +159,7 @@ That's it! Composer will automatically update Pico and all plugins and themes yo
 
 ### I've used a pre-bundled release to install Pico
 
-Okay, installing Pico was easy, but upgrading Pico is going to be hard, isn't it? I'm affraid I have to disappoint you... It's just as simple as installing Pico!
+Okay, installing Pico was easy, but upgrading Pico is going to be hard, isn't it? I'm afraid I have to disappoint you. It's just as simple as installing Pico!
 
 First you'll have to delete the `vendor` directory of your Pico installation (e.g. if you've installed Pico to `/var/www/html/pico`, delete `/var/www/html/pico/vendor`). Then [download the latest Pico release][LatestRelease] and upload all files to your existing Pico installation directory. You will be prompted whether you want to overwrite files like `index.php`, `.htaccess`, ... - simply hit "Yes".
 
@@ -175,7 +198,7 @@ Contributing
 
 You want to contribute to Pico? We really appreciate that! You can help make Pico better by [contributing code][PullRequests] or [reporting issues][Issues], but please take note of our [contribution guidelines][ContributionGuidelines]. In general you can contribute in three different areas:
 
-1. Plugins & Themes: You're a plugin developer or theme designer? We love you guys! You can find tons of information about how to develop plugins and themes at http://picocms.org/development/. If you have created a plugin or theme, please add it to our [Wiki][], either on the [plugins][WikiPlugins] or [themes][WikiThemes] page. You may also [Submit][] it to our website, where it'll be displayed on the official [plugin][OfficialPlugins] or [theme][OfficialThemes] pages!
+1. Plugins & Themes: You're a plugin developer or theme designer? We love you folks! You can find tons of information about how to develop plugins and themes at http://picocms.org/development/. If you have created a plugin or theme, please add it to our [Wiki][], either on the [plugins][WikiPlugins] or [themes][WikiThemes] page. You may also [Submit][] it to our website, where it'll be displayed on the official [plugin][OfficialPlugins] or [theme][OfficialThemes] pages!
 
 2. Documentation: We always appreciate people improving our documentation. You can either improve the [inline user docs][EditInlineDocs] or the more extensive [user docs on our website][EditUserDocs]. You can also improve the [docs for plugin and theme developers][EditDevDocs]. Simply fork our website's Git repository from https://github.com/picocms/picocms.github.io, change the Markdown files and open a [pull request][PullRequestsWebsite].
 
@@ -210,6 +233,7 @@ Official Pico Contributors won't claim bounties on their own behalf, Pico will n
 [PicoDeprecatedPackagist]: https://packagist.org/packages/picocms/pico-deprecated
 [PicoComposerPackagist]: https://packagist.org/packages/picocms/pico-composer
 [SemVer]: http://semver.org
+[HelpFork]: https://help.github.com/en/github/getting-started-with-github/fork-a-repo
 [HelpUpgrade]: http://picocms.org/in-depth/upgrade/
 [HelpUserDocs]: http://picocms.org/docs/
 [HelpDevDocs]: http://picocms.org/development/
